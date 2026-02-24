@@ -193,8 +193,7 @@ enterprise-network-with-ca-and-firewall/
 ├── Certificates/
 │   ├── mycaroot.crt
 │   ├── it_cert.crt
-│   ├── persona_cert.crt
-│   ├── sales_cert.crt
+│   ├── persona_cert.crt│  
 │   └── skillbox_cert.crt
 │
 ├── Firewall/  
