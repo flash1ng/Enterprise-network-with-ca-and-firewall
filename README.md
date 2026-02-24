@@ -25,7 +25,7 @@ Department	VLAN	Name
 IT	10	IT
 HR	20	Persona
 Sales	30	Sales
-Office	40	SkillBox
+Office	40	Company
 
 ✔ Each department is isolated using VLAN
 ✔ All devices can communicate (correct routing configured)
@@ -66,13 +66,7 @@ Traffic forwarding enabled
 
 Packet filtering between VLANs
 
-Custom security rules
 
-Example rules:
-
-iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
-iptables -A FORWARD -p tcp --dport 21 -j ACCEPT
-iptables -A FORWARD -j DROP
 🌐 Guest Network
 
 Separate Wi-Fi network
