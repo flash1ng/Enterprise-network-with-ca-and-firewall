@@ -1,94 +1,190 @@
-🏢 Enterprise Network with Certificate Authority and Firewall
-📌 Project Overview
 
-This project represents a simulated enterprise network built in Cisco Packet Tracer with:
+# 🏢 Enterprise Network Infrastructure with PKI and Firewall Segmentation
 
-VLAN segmentation
+## 📌 Project Overview
 
-Centralized Certificate Authority
+This project demonstrates the design and implementation of a segmented enterprise network with centralized security services.
 
-FTP server configuration
+The infrastructure was built in **Cisco Packet Tracer**, with security components deployed on **Ubuntu (VirtualBox)**.
 
-Firewall implementation using iptables
+The main objective was to simulate a secure corporate environment using:
 
-Guest Wi-Fi network
+* VLAN-based segmentation
+* Inter-VLAN routing
+* Centralized Certificate Authority (PKI)
+* Linux-based firewall (iptables)
+* FTP service for internal distribution
+* Isolated guest Wi-Fi network
 
-Inter-VLAN routing
+The project focuses on applying enterprise security principles such as segmentation, traffic filtering, and trust management.
 
-The goal was to design a secure corporate network infrastructure following basic enterprise security principles.
+---
 
-🖥 Network Architecture
+# 🏗 Architecture Overview
 
-The company consists of 20 PCs divided into four departments:
+## Network Scale
 
-Department	VLAN	Name
-IT	10	IT
-HR	20	Persona
-Sales	30	Sales
-Office	40	Company
+* 20 Workstations
+* 4 Departments
+* 1 Internal Server
+* 1 Firewall (Linux-based)
+* 1 Guest Wi-Fi segment
 
-✔ Each department is isolated using VLAN
-✔ All devices can communicate (correct routing configured)
-✔ Server located in IT department
+---
 
-🔐 Services Implemented
-1️⃣ FTP Server
+## VLAN Segmentation
 
-Configured on the IT server
+| Department | VLAN ID | Purpose                  |
+| ---------- | ------- | ------------------------ |
+| IT         | 10      | Infrastructure & Updates |
+| HR         | 20      | Personnel Systems        |
+| Sales      | 30      | Sales Operations         |
+| Office     | 40      | Corporate Workspace      |
 
-Provides file access for employees
+### Design Principles
 
-Supports internal update distribution
+* Logical isolation between departments
+* Broadcast domain separation
+* Reduced attack surface
+* Controlled inter-VLAN routing
 
-2️⃣ Certificate Authority (Ubuntu, VirtualBox)
+All VLANs are routed via Layer 3 configuration, ensuring full connectivity while maintaining segmentation.
 
-Created:
+---
 
-Root CA (mycaroot.crt)
-
-IT certificate
-
-Persona certificate
-
-Sales certificate
-
-SkillBox certificate
-
-Each VLAN has its own certificate for secure internal services.
-
-🔥 Firewall Configuration
-
-Firewall deployed on Ubuntu server using iptables.
-
-Key features:
-
-Traffic forwarding enabled
-
-Packet filtering between VLANs
+# 🌐 IP Addressing Strategy
 
 
-🌐 Guest Network
+| VLAN    | Subnet          |
+| ------- | --------------- |
+| VLAN 10 | 192.168.10.0/24 |
+| VLAN 20 | 192.168.20.0/24 |
+| VLAN 30 | 192.168.30.0/24 |
+| VLAN 40 | 192.168.40.0/24 |
 
-Separate Wi-Fi network
+Gateway for each VLAN configured on the routing device.
 
-Internet access only
+---
 
-No internal network protection required
+# 🔐 Public Key Infrastructure (PKI)
 
-🛠 Technologies Used
+A centralized Certificate Authority was deployed on Ubuntu using OpenSSL.
 
-Cisco Packet Tracer
+## PKI Hierarchy
 
-Ubuntu (VirtualBox)
+Root CA:
 
-OpenSSL (for CA)
+* `mycaroot.crt`
 
-iptables
+Issued Certificates:
 
-FTP service
+* `it_cert.crt`
+* `persona_cert.crt`
+* `sales_cert.crt`
+* `Company_cert.crt`
 
-📂 Repository Structure
+## Security Objectives
 
+* Establish trust inside internal infrastructure
+* Enable secure service validation
+* Simulate enterprise-level certificate lifecycle
+
+Each department logically corresponds to its own certificate for service-level authentication.
+
+---
+
+# 📂 FTP Service (Internal Distribution Server)
+
+The FTP service is hosted inside VLAN 10 (IT Department).
+
+### Purpose
+
+* Internal update distribution
+* Centralized file access
+* Controlled service exposure
+
+Port 21 explicitly allowed through firewall rules.
+
+---
+
+# 🔥 Firewall Architecture (iptables)
+
+Firewall implemented on Ubuntu with dual network interfaces:
+
+* `eth0` – Internal corporate network
+* `eth1` – External / uplink
+
+
+
+
+
+## Firewall Logic Explanation
+
+1. Allow internal outbound traffic
+2. Allow FTP traffic explicitly
+3. Drop all other forwarded traffic (default deny approach)
+
+### Security Model
+
+* Explicit allow
+* Implicit deny
+* Service-level filtering
+* Segmented traffic control
+
+This mimics enterprise perimeter firewall behavior.
+
+---
+
+# 🌐 Guest Wi-Fi Network
+
+The guest segment is logically separated from internal VLANs.
+
+### Characteristics
+
+* Internet access only
+* No access to corporate VLANs
+* No internal trust relationships
+
+Designed to simulate BYOD / visitor network policies.
+
+---
+
+# 🛠 Technologies Used
+
+* Cisco Packet Tracer
+* Ubuntu (VirtualBox)
+* OpenSSL
+* iptables
+* VLAN configuration
+* Inter-VLAN routing
+* FTP service deployment
+
+---
+
+# 📊 Security Considerations
+
+This project demonstrates several enterprise security principles:
+
+* Network segmentation reduces lateral movement risk
+* VLAN isolation limits broadcast domains
+* Firewall filtering enforces traffic policy
+* PKI provides internal trust framework
+* Service exposure minimized and controlled
+
+Potential improvements for production-level design:
+
+* Stateful firewall rules
+* Logging and monitoring
+* IDS/IPS integration
+* Certificate revocation list (CRL)
+* VPN remote access
+* DMZ segmentation
+
+---
+
+# 📂 Repository Structure
+
+```
 enterprise-network-with-ca-and-firewall/
 │
 ├── Cisco_Packet_Tracer/
@@ -98,23 +194,42 @@ enterprise-network-with-ca-and-firewall/
 │   ├── mycaroot.crt
 │   ├── it_cert.crt
 │   ├── persona_cert.crt
-│   └── company_cert.crt
+│   ├── sales_cert.crt
+│   └── skillbox_cert.crt
 │
-├── Firewall/│
+├── Firewall/  
 │   └── rules_screenshot.jpg
 │
 └── README.md
+```
 
-🎯 Learning Outcomes
+---
 
-VLAN configuration
+# 🎯 Engineering Outcomes
 
-Inter-VLAN routing
+Through this project I demonstrated practical skills in:
 
-Linux firewall configuration
+* Enterprise network segmentation
+* Layer 2 / Layer 3 configuration
+* Linux-based firewall deployment
+* PKI infrastructure setup
+* Controlled service exposure
+* Secure network design principles
 
-Certificate Authority setup
+---
 
-Network segmentation
+# 🧠 What This Project Represents
 
-Basic enterprise network security design
+This lab simulates a small-scale enterprise infrastructure with applied network security controls and centralized trust management.
+
+It reflects practical understanding of:
+
+* Network isolation
+* Access control
+* Traffic filtering
+* Secure service deployment
+* Infrastructure design thinking
+
+---
+
+
