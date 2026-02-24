@@ -1,4 +1,3 @@
-
 # 🏢 Enterprise Network Infrastructure with PKI and Firewall Segmentation
 
 ## 📌 Project Overview
